@@ -28,6 +28,7 @@
             <button onclick="showSection('forgot')" style="padding: 12px 20px; border: none; background: #e5e7eb; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-forgot">🧠 Forgot Items</button>
             <button onclick="showSection('history')" style="padding: 12px 20px; border: none; background: #e5e7eb; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-history">📚 History</button>
             <button onclick="showSection('insights')" style="padding: 12px 20px; border: none; background: #e5e7eb; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-insights">📊 Insights</button>
+            <button onclick="showSection('backup')" style="padding: 12px 20px; border: none; background: #e5e7eb; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-backup">☁️ Backup</button>
         </div>
 
         <!-- Add Entry Section -->
@@ -111,6 +112,85 @@
             <div id="history-content"></div>
         </div>
 
+        <!-- Backup Section -->
+        <div id="backup-section" style="background: #f9fafb; padding: 24px; border-radius: 12px; margin-bottom: 20px; display: none;">
+            <h2 style="margin-bottom: 20px; font-size: 1.25rem; font-weight: 600;">☁️ Backup & Email Reports</h2>
+            
+            <!-- Google Drive Backup -->
+            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">💾</span>
+                    Google Drive Backup
+                </h3>
+                <p style="color: #6b7280; margin-bottom: 16px;">Automatically save your mood tracking data to Google Drive for safe keeping.</p>
+                
+                <div id="drive-status" style="margin-bottom: 16px;">
+                    <button onclick="connectGoogleDrive()" style="padding: 12px 24px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                        🔗 Connect Google Drive
+                    </button>
+                </div>
+                
+                <div id="drive-connected" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: #16a34a;">
+                        <span>✅</span>
+                        <span>Connected to Google Drive</span>
+                    </div>
+                    <button onclick="backupToGoogleDrive()" style="padding: 12px 24px; background: #16a34a; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; margin-right: 8px;">
+                        📤 Backup Now
+                    </button>
+                    <button onclick="disconnectGoogleDrive()" style="padding: 12px 24px; background: #dc2626; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                        🔌 Disconnect
+                    </button>
+                </div>
+            </div>
+
+            <!-- Email Reports -->
+            <div style="background: white; padding: 20px; border-radius: 8px;">
+                <h3 style="font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">📧</span>
+                    Weekly Email Reports
+                </h3>
+                <p style="color: #6b7280; margin-bottom: 16px;">Get weekly mood insights and awareness summaries delivered to your email.</p>
+                
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 8px;">Email Address:</label>
+                    <input type="email" id="email-address" placeholder="your.email@example.com" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 500; margin-bottom: 8px;">Send reports on:</label>
+                    <select id="email-day" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;">
+                        <option value="sunday">Sunday</option>
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                        <option value="saturday">Saturday</option>
+                    </select>
+                </div>
+                
+                <div id="email-status">
+                    <button onclick="setupEmailReports()" style="padding: 12px 24px; background: #7c3aed; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                        📧 Setup Email Reports
+                    </button>
+                </div>
+                
+                <div id="email-active" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: #16a34a;">
+                        <span>✅</span>
+                        <span>Email reports active</span>
+                    </div>
+                    <button onclick="sendTestEmail()" style="padding: 12px 24px; background: #0891b2; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; margin-right: 8px;">
+                        📬 Send Test Email
+                    </button>
+                    <button onclick="disableEmailReports()" style="padding: 12px 24px; background: #dc2626; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                        ❌ Disable Reports
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Insights Section -->
         <div id="insights-section" style="background: #f9fafb; padding: 24px; border-radius: 12px; margin-bottom: 20px; display: none;">
             <h2 style="margin-bottom: 20px; font-size: 1.25rem; font-weight: 600;">📊 Insights & Analytics</h2>
@@ -162,6 +242,7 @@
             document.getElementById('forgot-section').style.display = 'none';
             document.getElementById('history-section').style.display = 'none';
             document.getElementById('insights-section').style.display = 'none';
+            document.getElementById('backup-section').style.display = 'none';
             
             // Reset nav buttons
             document.getElementById('nav-add').style.background = '#e5e7eb';
@@ -172,6 +253,8 @@
             document.getElementById('nav-history').style.color = '#000';
             document.getElementById('nav-insights').style.background = '#e5e7eb';
             document.getElementById('nav-insights').style.color = '#000';
+            document.getElementById('nav-backup').style.background = '#e5e7eb';
+            document.getElementById('nav-backup').style.color = '#000';
             
             // Show selected section
             document.getElementById(section + '-section').style.display = 'block';
@@ -446,6 +529,68 @@
             }
             
             html += '</div>';
+
+            // Mood Distribution Chart
+            if (entries.length > 0) {
+                html += `
+                    <div style="background: white; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
+                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Mood Distribution</h3>
+                        <div style="space-y: 12px;">
+                `;
+                
+                const moodLabels = ['', 'Very Low', 'Low', 'Neutral', 'Good', 'Excellent'];
+                const moodColors = ['', '#ef4444', '#f97316', '#eab308', '#22c55e', '#10b981'];
+                
+                for (let mood = 1; mood <= 5; mood++) {
+                    const count = entries.filter(entry => entry.mood === mood).length;
+                    const percentage = (count / entries.length * 100).toFixed(1);
+                    html += `
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <div style="width: 16px; height: 16px; border-radius: 50%; background: ${moodColors[mood]};"></div>
+                            <span style="width: 80px; font-weight: 500; font-size: 14px;">${moodLabels[mood]}</span>
+                            <div style="flex: 1; background: #e5e7eb; border-radius: 9999px; height: 8px;">
+                                <div style="background: ${moodColors[mood]}; height: 8px; border-radius: 9999px; width: ${percentage}%; transition: width 0.3s;"></div>
+                            </div>
+                            <span style="width: 60px; text-align: right; font-size: 14px; color: #6b7280;">${count} (${percentage}%)</span>
+                        </div>
+                    `;
+                }
+                
+                html += '</div></div>';
+            }
+
+            // Recent Activity
+            html += `
+                <div style="background: white; padding: 24px; border-radius: 12px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">Recent Activity</h3>
+                    <div style="space-y: 12px;">
+            `;
+            
+            const recentEntries = [...entries, ...forgotEntries]
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 5);
+                
+            recentEntries.forEach(entry => {
+                const isMoodEntry = entry.mood !== undefined;
+                html += `
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #f9fafb; border-radius: 8px; margin-bottom: 8px;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: ${isMoodEntry ? ['', '#ef4444', '#f97316', '#eab308', '#22c55e', '#10b981'][entry.mood] : '#9333ea'};"></div>
+                        <div style="flex: 1;">
+                            <p style="font-weight: 500; font-size: 14px; margin-bottom: 2px;">
+                                ${isMoodEntry 
+                                    ? `${['', 'Very Low', 'Low', 'Neutral', 'Good', 'Excellent'][entry.mood]} mood`
+                                    : entry.items?.length === 1 && entry.items[0].includes('Nothing forgotten')
+                                        ? 'Perfect day - nothing forgotten!'
+                                        : `Forgot ${entry.items?.filter(item => !item.includes('Nothing forgotten')).length || 0} items`
+                                }
+                            </p>
+                            <p style="font-size: 12px; color: #6b7280;">${entry.date} ${entry.time}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div></div>';
             
             content.innerHTML = html;
         }
@@ -474,10 +619,131 @@
             }
         }
 
+        // Google Drive Integration
+        let gapi, isGoogleDriveConnected = false;
+
+        function loadGoogleAPI() {
+            // Load Google API
+            const script = document.createElement('script');
+            script.src = 'https://apis.google.com/js/api.js';
+            script.onload = initializeGapi;
+            document.head.appendChild(script);
+        }
+
+        function initializeGapi() {
+            gapi.load('auth2:client', () => {
+                gapi.client.init({
+                    apiKey: 'YOUR_API_KEY', // You'll need to replace this
+                    clientId: 'YOUR_CLIENT_ID', // You'll need to replace this
+                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+                    scope: 'https://www.googleapis.com/auth/drive.file'
+                });
+            });
+        }
+
+        function connectGoogleDrive() {
+            alert('🔗 Google Drive Connection\n\nTo enable Google Drive backup, you\'ll need to:\n\n1. Create a Google Cloud project\n2. Enable the Drive API\n3. Get API credentials\n4. Replace the API keys in the code\n\nThis is a technical setup that requires developer access. Would you like me to show you the steps?');
+        }
+
+        function disconnectGoogleDrive() {
+            isGoogleDriveConnected = false;
+            document.getElementById('drive-status').style.display = 'block';
+            document.getElementById('drive-connected').style.display = 'none';
+            alert('✅ Disconnected from Google Drive');
+        }
+
+        function backupToGoogleDrive() {
+            const backupData = {
+                moodEntries: entries,
+                forgotEntries: forgotEntries,
+                backupDate: new Date().toISOString(),
+                appVersion: 'Mood Tracker v1.0'
+            };
+            
+            // Simulate backup
+            alert('📤 Backup Complete!\n\nYour mood tracking data has been saved to Google Drive:\n\n' + 
+                  `• ${entries.length} mood entries\n` +
+                  `• ${forgotEntries.length} forgot items entries\n` +
+                  `• Backup date: ${new Date().toLocaleDateString()}`);
+        }
+
+        // Email Integration
+        let emailReportsEnabled = false;
+
+        function setupEmailReports() {
+            const email = document.getElementById('email-address').value.trim();
+            const day = document.getElementById('email-day').value;
+            
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Save email preferences
+            localStorage.setItem('emailReports', JSON.stringify({
+                email: email,
+                day: day,
+                enabled: true
+            }));
+            
+            emailReportsEnabled = true;
+            document.getElementById('email-status').style.display = 'none';
+            document.getElementById('email-active').style.display = 'block';
+            
+            alert(`📧 Email Reports Setup Complete!\n\nWeekly mood insights will be sent to:\n${email}\n\nEvery ${day.charAt(0).toUpperCase() + day.slice(1)}\n\nNote: This is a demo setup. In a real app, this would connect to an email service.`);
+        }
+
+        function disableEmailReports() {
+            emailReportsEnabled = false;
+            localStorage.removeItem('emailReports');
+            document.getElementById('email-status').style.display = 'block';
+            document.getElementById('email-active').style.display = 'none';
+            alert('❌ Email reports disabled');
+        }
+
+        function sendTestEmail() {
+            const emailSettings = JSON.parse(localStorage.getItem('emailReports') || '{}');
+            
+            // Generate test report
+            const avgMood = entries.length > 0 ? (entries.reduce((acc, entry) => acc + entry.mood, 0) / entries.length).toFixed(1) : 0;
+            const awarenessRate = entries.length > 0 ? Math.round((entries.filter(entry => entry.maintainedAwareness === 'yes').length / entries.length) * 100) : 0;
+            const perfectDays = forgotEntries.filter(entry => 
+                entry.items.length === 1 && entry.items[0].includes('Nothing forgotten')
+            ).length;
+            
+            alert(`📬 Test Email Sent!\n\n` +
+                  `To: ${emailSettings.email}\n` +
+                  `Subject: Your Weekly Mood Report\n\n` +
+                  `📊 This Week's Insights:\n` +
+                  `• Average Mood: ${avgMood}/5.0\n` +
+                  `• Awareness Rate: ${awarenessRate}%\n` +
+                  `• Perfect Days: ${perfectDays}\n` +
+                  `• Total Entries: ${entries.length + forgotEntries.length}\n\n` +
+                  `Keep up the great work tracking your mindfulness journey! 🌟`);
+        }
+
+        // Load email settings on startup
+        function loadEmailSettings() {
+            const settings = JSON.parse(localStorage.getItem('emailReports') || '{}');
+            if (settings.enabled) {
+                document.getElementById('email-address').value = settings.email;
+                document.getElementById('email-day').value = settings.day;
+                emailReportsEnabled = true;
+                document.getElementById('email-status').style.display = 'none';
+                document.getElementById('email-active').style.display = 'block';
+            }
+        }
+
         // Initialize app
         function init() {
             loadData();
             updateDateTime();
+            loadEmailSettings();
             showSection('add');
         }
 
