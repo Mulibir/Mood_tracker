@@ -120,27 +120,18 @@
             <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
                 <h3 style="font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
                     <span style="font-size: 20px;">💾</span>
-                    Google Drive Backup
+                    Download Backup
                 </h3>
-                <p style="color: #6b7280; margin-bottom: 16px;">Automatically save your mood tracking data to Google Drive for safe keeping.</p>
+                <p style="color: #6b7280; margin-bottom: 16px;">Download your mood tracking data as a safe backup file.</p>
                 
-                <div id="drive-status" style="margin-bottom: 16px;">
-                    <button onclick="connectGoogleDrive()" style="padding: 12px 24px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
-                        🔗 Connect Google Drive
-                    </button>
-                </div>
+                <button onclick="downloadBackupFile()" style="padding: 12px 24px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
+                    📥 Download Backup File
+                </button>
                 
-                <div id="drive-connected" style="display: none;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: #16a34a;">
-                        <span>✅</span>
-                        <span>Connected to Google Drive</span>
-                    </div>
-                    <button onclick="backupToGoogleDrive()" style="padding: 12px 24px; background: #16a34a; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; margin-right: 8px;">
-                        📤 Backup Now
-                    </button>
-                    <button onclick="disconnectGoogleDrive()" style="padding: 12px 24px; background: #dc2626; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
-                        🔌 Disconnect
-                    </button>
+                <div style="margin-top: 16px; padding: 12px; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #0ea5e9;">
+                    <p style="font-size: 14px; color: #0c4a6e; margin: 0;">
+                        💡 Your data is automatically saved in your browser. Download backup files to keep your mood tracking data safe!
+                    </p>
                 </div>
             </div>
 
