@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood & Awareness Tracker</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Mood Tracker">
+    
+    <!-- App Icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIHJ4PSI0MCIgZmlsbD0iIzRmNDZlNSIvPjx0ZXh0IHg9IjkwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI2MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfmIE8L3RleHQ+PC9zdmc+">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHJ4PSI4IiBmaWxsPSIjNGY0NmU1Ii8+PHRleHQgeD0iMTYiIHk9IjIyIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7wn5iBPC90ZXh0Pjwvc3ZnPg==">
+</head>
+<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; box-sizing: border-box;">
+    
+    <div style="max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); padding: 30px;">
+        
+        <h1 style="text-align: center; color: #1f2937; margin-bottom: 10px; font-size: 2.5rem; font-weight: bold;">Mood & Awareness Tracker</h1>
+        <p style="text-align: center; color: #6b7280; margin-bottom: 30px;">Track your mindfulness journey and emotional well-being</p>
+        
+        <!-- Navigation -->
+        <div style="display: flex; justify-content: center; margin-bottom: 30px; gap: 8px; flex-wrap: wrap;">
+            <button onclick="showSection('add')" style="padding: 12px 20px; border: none; background: #4f46e5; color: white; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-add">➕ Add Entry</button>
+            <button onclick="showSection('forgot')" style="padding: 12px 20px; border: none; background: #e5e7eb; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-forgot">🧠 Forgot Items</button>
+            <button onclick="showSection('history')" style="padding: 12px 20px; border: none; background: #e5e7eb; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-history">📚 History</button>
+            <button onclick="showSection('insights')" style="padding: 12px 20px; border: none; background: #e5e7eb; border-radius: 8px; cursor: pointer; font-weight: 500;" id="nav-insights">📊 Insights</button>
+        </div>
+
+        <!-- Add Entry Section -->
+        <div id="add-section" style="background: #f9fafb; padding: 24px; border-radius: 12px; margin-bottom: 20px;">
+            <h2 style="margin-bottom: 20px; font-size: 1.25rem; font-weight: 600;">📅 New Entry - <span id="current-date"></span></h2>
+            
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 12px;">How is your mood right now?</label>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;">
+                    <button onclick="selectMood(1)" style="padding: 16px; border: 2px solid #e5e7eb; background: white; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;" id="mood-1">
+                        <div style="width: 16px; height: 16px; border-radius: 50%; background: #ef4444; margin: 0 auto 8px;"></div>
+                        <div style="font-size: 12px; font-weight: 500;">Very Low</div>
+                    </button>
+                    <button onclick="selectMood(2)" style="padding: 16px; border: 2px solid #e5e7eb; background: white; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;" id="mood-2">
+                        <div style="width: 16px; height: 16px; border-radius: 50%; background: #f97316; margin: 0 auto 8px;"></div>
+                        <div style="font-size: 12px; font-weight: 500;">Low</div>
+                    </button>
+                    <button onclick="selectMood(3)" style="padding: 16px; border: 2px solid #4f46e5; background: #eef2ff; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;" id="mood-3">
+                        <div style="width: 16px; height: 16px; border-radius: 50%; background: #eab308; margin: 0 auto 8px;"></div>
+                        <div style="font-size: 12px; font-weight: 500;">Neutral</div>
+                    </button>
+                    <button onclick="selectMood(4)" style="padding: 16px; border: 2px solid #e5e7eb; background: white; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;" id="mood-4">
+                        <div style="width: 16px; height: 16px; border-radius: 50%; background: #22c55e; margin: 0 auto 8px;"></div>
+                        <div style="font-size: 12px; font-weight: 500;">Good</div>
+                    </button>
+                    <button onclick="selectMood(5)" style="padding: 16px; border: 2px solid #e5e7eb; background: white; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;" id="mood-5">
+                        <div style="width: 16px; height: 16px; border-radius: 50%; background: #10b981; margin: 0 auto 8px;"></div>
+                        <div style="font-size: 12px; font-weight: 500;">Excellent</div>
+                    </button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 12px;">Did you maintain awareness today?</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <button onclick="selectAwareness('yes')" style="padding: 20px; border: 2px solid #10b981; background: #ecfdf5; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;" id="awareness-yes">
+                        <div style="font-size: 20px; margin-bottom: 8px;">✅</div>
+                        <div style="font-weight: 500;">Yes</div>
+                    </button>
+                    <button onclick="selectAwareness('no')" style="padding: 20px; border: 2px solid #e5e7eb; background: white; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;" id="awareness-no">
+                        <div style="font-size: 20px; margin-bottom: 8px;">❌</div>
+                        <div style="font-weight: 500;">No</div>
+                    </button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px;">Description of your experience</label>
+                <textarea id="description" rows="4" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; resize: none;" placeholder="Describe what happened today that affected your mood or awareness..."></textarea>
+            </div>
+
+            <button onclick="saveEntry()" style="width: 100%; padding: 16px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">Save Entry</button>
+        </div>
+
+        <!-- Forgot Items Section -->
+        <div id="forgot-section" style="background: #f9fafb; padding: 24px; border-radius: 12px; margin-bottom: 20px; display: none;">
+            <h2 style="margin-bottom: 20px; font-size: 1.25rem; font-weight: 600;">🧠 Track Forgotten Items - <span id="forgot-date"></span></h2>
+            
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 12px;">What did you forget today?</label>
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <input type="text" id="forgot-item" placeholder="e.g., Water bottle, Phone charger, Keys..." style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit;" onkeypress="handleEnter(event, addForgotItem)">
+                    <button onclick="addForgotItem()" style="padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">Add</button>
+                </div>
+                <button onclick="addPerfectDay()" style="padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer; margin: 4px;">✨ Perfect Day - Forgot Nothing!</button>
+                
+                <div id="forgot-items-list" style="max-height: 300px; overflow-y: auto; margin: 16px 0;"></div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px;">Additional notes (optional)</label>
+                <textarea id="forgot-notes" rows="3" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; resize: none;" placeholder="Any patterns you noticed? What might have helped you remember?"></textarea>
+            </div>
+
+            <button onclick="saveForgotEntry()" style="width: 100%; padding: 16px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">Save Forgot Items Entry</button>
+        </div>
+
+        <!-- History Section -->
+        <div id="history-section" style="background: #f9fafb; padding: 24px; border-radius: 12px; margin-bottom: 20px; display: none;">
+            <h2 style="margin-bottom: 20px; font-size: 1.25rem; font-weight: 600;">📚 Entry History</h2>
+            <div id="history-content"></div>
+        </div>
+
+        <!-- Insights Section -->
+        <div id="insights-section" style="background: #f9fafb; padding: 24px; border-radius: 12px; margin-bottom: 20px; display: none;">
+            <h2 style="margin-bottom: 20px; font-size: 1.25rem; font-weight: 600;">📊 Insights & Analytics</h2>
+            <div id="insights-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentMood = 3;
+        let currentAwareness = 'yes';
+        let forgotItems = [];
+        let entries = [];
+        let forgotEntries = [];
+
+        // Load data from localStorage
+        function loadData() {
+            try {
+                entries = JSON.parse(localStorage.getItem('moodAwarenessEntries') || '[]');
+                forgotEntries = JSON.parse(localStorage.getItem('forgotItemsEntries') || '[]');
+            } catch (e) {
+                entries = [];
+                forgotEntries = [];
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('moodAwarenessEntries', JSON.stringify(entries));
+            localStorage.setItem('forgotItemsEntries', JSON.stringify(forgotEntries));
+        }
+
+        // Show current date and time
+        function updateDateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString() + ' at ' + now.toLocaleTimeString('en-US', { 
+                hour12: false, 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            document.getElementById('current-date').textContent = dateStr;
+            document.getElementById('forgot-date').textContent = now.toLocaleDateString();
+        }
+
+        // Navigation
+        function showSection(section) {
+            // Hide all sections
+            document.getElementById('add-section').style.display = 'none';
+            document.getElementById('forgot-section').style.display = 'none';
+            document.getElementById('history-section').style.display = 'none';
+            document.getElementById('insights-section').style.display = 'none';
+            
+            // Reset nav buttons
+            document.getElementById('nav-add').style.background = '#e5e7eb';
+            document.getElementById('nav-add').style.color = '#000';
+            document.getElementById('nav-forgot').style.background = '#e5e7eb';
+            document.getElementById('nav-forgot').style.color = '#000';
+            document.getElementById('nav-history').style.background = '#e5e7eb';
+            document.getElementById('nav-history').style.color = '#000';
+            document.getElementById('nav-insights').style.background = '#e5e7eb';
+            document.getElementById('nav-insights').style.color = '#000';
+            
+            // Show selected section
+            document.getElementById(section + '-section').style.display = 'block';
+            document.getElementById('nav-' + section).style.background = '#4f46e5';
+            document.getElementById('nav-' + section).style.color = 'white';
+            
+            // Update content for specific sections
+            if (section === 'history') updateHistory();
+            if (section === 'insights') updateInsights();
+        }
+
+        // Mood selection
+        function selectMood(mood) {
+            currentMood = mood;
+            // Reset all mood buttons
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById('mood-' + i).style.border = '2px solid #e5e7eb';
+                document.getElementById('mood-' + i).style.background = 'white';
+            }
+            // Highlight selected mood
+            document.getElementById('mood-' + mood).style.border = '2px solid #4f46e5';
+            document.getElementById('mood-' + mood).style.background = '#eef2ff';
+        }
+
+        // Awareness selection
+        function selectAwareness(awareness) {
+            currentAwareness = awareness;
+            if (awareness === 'yes') {
+                document.getElementById('awareness-yes').style.border = '2px solid #10b981';
+                document.getElementById('awareness-yes').style.background = '#ecfdf5';
+                document.getElementById('awareness-no').style.border = '2px solid #e5e7eb';
+                document.getElementById('awareness-no').style.background = 'white';
+            } else {
+                document.getElementById('awareness-no').style.border = '2px solid #ef4444';
+                document.getElementById('awareness-no').style.background = '#fef2f2';
+                document.getElementById('awareness-yes').style.border = '2px solid #e5e7eb';
+                document.getElementById('awareness-yes').style.background = 'white';
+            }
+        }
+
+        // Save mood entry
+        function saveEntry() {
+            const description = document.getElementById('description').value.trim();
+            if (!description) {
+                alert('Please add a description of your experience');
+                return;
+            }
+
+            const newEntry = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString('en-US', { 
+                    hour12: false, 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                }),
+                mood: currentMood,
+                maintainedAwareness: currentAwareness,
+                description: description,
+                timestamp: new Date().toISOString()
+            };
+
+            entries.unshift(newEntry);
+            saveData();
+            
+            // Reset form
+            document.getElementById('description').value = '';
+            selectMood(3);
+            selectAwareness('yes');
+            
+            alert('Entry saved successfully!');
+        }
+
+        // Forgot items functions
+        function addForgotItem() {
+            const input = document.getElementById('forgot-item');
+            const item = input.value.trim();
+            if (item) {
+                forgotItems.push(item);
+                input.value = '';
+                updateForgotItemsList();
+            }
+        }
+
+        function addPerfectDay() {
+            forgotItems = ['Nothing forgotten! 🎉'];
+            updateForgotItemsList();
+        }
+
+        function removeForgotItem(index) {
+            forgotItems.splice(index, 1);
+            updateForgotItemsList();
+        }
+
+        function updateForgotItemsList() {
+            const list = document.getElementById('forgot-items-list');
+            if (forgotItems.length === 0) {
+                list.innerHTML = '';
+                return;
+            }
+            
+            list.innerHTML = '<h4 style="font-weight: 500; margin-bottom: 8px;">Items forgotten today:</h4>' + 
+                forgotItems.map((item, index) => 
+                    `<div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 6px; margin: 4px 0;">
+                        <span>${item}</span>
+                        <button onclick="removeForgotItem(${index})" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">❌</button>
+                    </div>`
+                ).join('') +
+                `<div style="font-size: 14px; color: #6b7280; margin-top: 8px;">
+                    Total items: ${forgotItems.filter(item => !item.includes('Nothing forgotten')).length}
+                </div>`;
+        }
+
+        function saveForgotEntry() {
+            if (forgotItems.length === 0) {
+                alert('Please add at least one item, or mark as "Nothing forgotten" if you had a perfect day!');
+                return;
+            }
+
+            const newForgotEntry = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString('en-US', { 
+                    hour12: false, 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                }),
+                items: [...forgotItems],
+                itemCount: forgotItems.length,
+                notes: document.getElementById('forgot-notes').value,
+                timestamp: new Date().toISOString()
+            };
+
+            forgotEntries.unshift(newForgotEntry);
+            saveData();
+            
+            // Reset form
+            forgotItems = [];
+            document.getElementById('forgot-notes').value = '';
+            updateForgotItemsList();
+            
+            alert('Forgot items entry saved!');
+        }
+
+        // History functions
+        function updateHistory() {
+            const content = document.getElementById('history-content');
+            const totalEntries = entries.length + forgotEntries.length;
+            
+            if (totalEntries === 0) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #6b7280;">
+                        <div style="font-size: 4rem; margin-bottom: 16px;">📔</div>
+                        <h3 style="font-weight: bold; margin-bottom: 8px;">No entries yet</h3>
+                        <p>Start tracking your mood and awareness to see your history here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `<p style="font-size: 14px; margin-bottom: 16px; color: #6b7280;">${totalEntries} total entries</p>`;
+            
+            // Mood entries
+            if (entries.length > 0) {
+                html += `<h3 style="font-weight: bold; margin-bottom: 16px;">Mood & Awareness Entries (${entries.length})</h3>`;
+                html += entries.map(entry => {
+                    const moodColors = ['', '#ef4444', '#f97316', '#eab308', '#22c55e', '#10b981'];
+                    const moodLabels = ['', 'Very Low', 'Low', 'Neutral', 'Good', 'Excellent'];
+                    return `
+                        <div style="background: white; padding: 16px; border-radius: 8px; margin: 12px 0; border: 1px solid #e5e7eb;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 12px; height: 12px; border-radius: 50%; background: ${moodColors[entry.mood]};"></div>
+                                    <span style="font-weight: 500;">${moodLabels[entry.mood]}</span>
+                                    <span>${entry.maintainedAwareness === 'yes' ? '✅' : '❌'}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-size: 14px; color: #6b7280;">${entry.date} ${entry.time}</span>
+                                    <button onclick="deleteEntry(${entry.id})" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">🗑️</button>
+                                </div>
+                            </div>
+                            <p style="font-size: 14px;">${entry.description}</p>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Forgot entries
+            if (forgotEntries.length > 0) {
+                html += `<h3 style="font-weight: bold; margin-bottom: 16px; margin-top: 24px;">Forgot Items Entries (${forgotEntries.length})</h3>`;
+                html += forgotEntries.map(entry => `
+                    <div style="background: white; padding: 16px; border-radius: 8px; margin: 12px 0; border: 1px solid #e5e7eb;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 500; color: #9333ea;">
+                                ${entry.items.length === 1 && entry.items[0].includes('Nothing forgotten') 
+                                    ? '🎉 Perfect Day!' 
+                                    : `${entry.items.filter(item => !item.includes('Nothing forgotten')).length} items forgotten`
+                                }
+                            </span>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 14px; color: #6b7280;">${entry.date} ${entry.time}</span>
+                                <button onclick="deleteForgotEntry(${entry.id})" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">🗑️</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;">
+                            ${entry.items.map(item => 
+                                `<span style="display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 12px; margin: 2px; background: ${item.includes('Nothing forgotten') ? '#dcfce7; color: #16a34a' : '#f3e8ff; color: #9333ea'};">${item}</span>`
+                            ).join('')}
+                        </div>
+                        ${entry.notes ? `<p style="font-size: 14px; color: #6b7280; font-style: italic;">${entry.notes}</p>` : ''}
+                    </div>
+                `).join('');
+            }
+            
+            content.innerHTML = html;
+        }
+
+        // Insights functions
+        function updateInsights() {
+            const content = document.getElementById('insights-content');
+            const totalEntries = entries.length + forgotEntries.length;
+            
+            if (totalEntries === 0) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #6b7280;">
+                        <div style="font-size: 4rem; margin-bottom: 16px;">📊</div>
+                        <h3 style="font-weight: bold; margin-bottom: 8px;">No data to analyze yet</h3>
+                        <p>Start tracking your mood and awareness to see insights here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const avgMood = entries.length > 0 ? (entries.reduce((acc, entry) => acc + entry.mood, 0) / entries.length).toFixed(1) : 0;
+            const awarenessRate = entries.length > 0 ? Math.round((entries.filter(entry => entry.maintainedAwareness === 'yes').length / entries.length) * 100) : 0;
+            const perfectDays = forgotEntries.filter(entry => 
+                entry.items.length === 1 && entry.items[0].includes('Nothing forgotten')
+            ).length;
+
+            let html = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Total Entries</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; margin: 8px 0;">${totalEntries}</div>
+                        <p style="opacity: 0.8;">${entries.length} mood, ${forgotEntries.length} forgot items</p>
+                    </div>
+            `;
+            
+            if (entries.length > 0) {
+                html += `
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Average Mood</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; margin: 8px 0;">${avgMood}</div>
+                        <p style="opacity: 0.8;">out of 5.0</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Awareness Rate</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; margin: 8px 0;">${awarenessRate}%</div>
+                        <p style="opacity: 0.8;">days with awareness</p>
+                    </div>
+                `;
+            }
+            
+            if (forgotEntries.length > 0) {
+                html += `
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px; border-radius: 12px; text-align: center;">
+                        <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Perfect Days</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; margin: 8px 0;">${perfectDays}</div>
+                        <p style="opacity: 0.8;">nothing forgotten</p>
+                    </div>
+                `;
+            }
+            
+            html += '</div>';
+            
+            content.innerHTML = html;
+        }
+
+        // Delete functions
+        function deleteEntry(id) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                entries = entries.filter(entry => entry.id !== id);
+                saveData();
+                updateHistory();
+            }
+        }
+
+        function deleteForgotEntry(id) {
+            if (confirm('Are you sure you want to delete this entry?')) {
+                forgotEntries = forgotEntries.filter(entry => entry.id !== id);
+                saveData();
+                updateHistory();
+            }
+        }
+
+        // Helper functions
+        function handleEnter(event, callback) {
+            if (event.key === 'Enter') {
+                callback();
+            }
+        }
+
+        // Initialize app
+        function init() {
+            loadData();
+            updateDateTime();
+            showSection('add');
+        }
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>
